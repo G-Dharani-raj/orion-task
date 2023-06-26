@@ -6,12 +6,14 @@ const cors = require("cors");
 const connectDB = require("./db");
 const userRouter = require("./routes/user.routes");
 const bookRouter = require("./routes/books.routes");
+const ratingRouter = require("./routes/rating.routes");
 
 app.use(express.json());
 app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/books", bookRouter);
+app.use("/rating", ratingRouter);
 
 app.listen(process.env.PORT, () => {
 	connectDB();
