@@ -8,6 +8,7 @@ const userRouter = require("./routes/user.routes");
 const bookRouter = require("./routes/books.routes");
 const ratingRouter = require("./routes/rating.routes");
 const userAuthenticate = require("./middlewares/UserAuthenicator.middleware");
+const reviewRouter = require("./routes/review.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -16,6 +17,7 @@ app.use("/rating", userAuthenticate);
 app.use("/user", userRouter);
 app.use("/books", bookRouter);
 app.use("/rating", ratingRouter);
+app.use("/reviews", reviewRouter);
 
 app.listen(process.env.PORT, () => {
 	connectDB();
