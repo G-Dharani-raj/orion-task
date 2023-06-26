@@ -11,13 +11,12 @@ bookRouter.post("/add", upload.single("image"), async (req, res) => {
 	try {
 		const result = await cloudinary.uploader.upload(req.file.path);
 		let newBook = new BookModel({
-			name,
-			author,
+			...req.body,
 			cover: result.secure_url,
 		});
 		await newBook.save();
 		res.status(200).send({
-			message: `${name} has been added to the catalogue`,
+			message: `${name} by ${author} has been added to the catalogue.`,
 		});
 	} catch (error) {
 		res.status(500).send({ error });
