@@ -7,15 +7,14 @@ const UserModel = require("../models/User.model");
 
 const bookRouter = express.Router();
 
-bookRouter.post("/add", upload.single("image"), async (req, res) => {
+bookRouter.post("/add", async (req, res) => {
 	const { name, author } = req.body;
 	const { user } = req.headers;
-	console.log(user);
+	// console.log(user);
 	try {
-		const result = await cloudinary.uploader.upload(req.file.path);
+		// const result = await cloudinary.uploader.upload(req.file.path);
 		let newBook = new BookModel({
 			...req.body,
-			cover: result.secure_url,
 			uploadedBy: user,
 		});
 		await newBook.save();
@@ -28,7 +27,7 @@ bookRouter.post("/add", upload.single("image"), async (req, res) => {
 			message: `${name} by ${author} has been added to the catalogue.`,
 		});
 	} catch (error) {
-		res.status(500).send({ error });
+		res.status(500).send(error.message);
 	}
 });
 
@@ -54,7 +53,7 @@ bookRouter.get("/:id", async (req, res) => {
 bookRouter.post("/post/:id", async (req, res) => {
 	const id = req.params.id;
 	const { user } = req.headers;
-	console.log(user);
+	// console.log(user);
 	try {
 		await UserModel.findOneAndUpdate(
 			{ email: user },
