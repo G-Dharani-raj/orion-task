@@ -106,6 +106,12 @@ export default function Navbar() {
 								>
 									{token ? "" : "Register"}
 								</MenuItem>
+								<MenuDivider />
+								<MenuItem
+									onClick={() => navigate("/adminlogin")}
+								>
+									Admin Sign In
+								</MenuItem>
 							</MenuList>
 						</Menu>
 					</Flex>

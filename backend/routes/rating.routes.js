@@ -79,7 +79,7 @@ ratingRouter.post("/:id", async (req, res) => {
 ratingRouter.get("/userrating/:id", async (req, res) => {
 	const { user } = req.headers;
 	const id = req.params.id;
-	console.log(user, id);
+	// console.log(user, id);
 	try {
 		let ur = await URModel.find({
 			$and: [{ user: user }, { book: id }],

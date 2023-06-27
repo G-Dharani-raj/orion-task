@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import HomeCard from "./HomeCard";
 import axios from "axios";
 import { API } from "../../util/API";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 
 const HomePage = () => {
 	const [books, setBooks] = useState([]);
@@ -14,10 +15,13 @@ const HomePage = () => {
 	}, []);
 	return (
 		<div>
-			HomePage
-			{books.map((item) => (
-				<HomeCard key={item._id} {...item} />
-			))}
+			<SimpleGrid columns={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}>
+				{books.map((item) => (
+					<Box key={item._id}>
+						<HomeCard {...item} />
+					</Box>
+				))}
+			</SimpleGrid>
 		</div>
 	);
 };

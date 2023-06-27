@@ -21,7 +21,7 @@ const userAuthenticate = async (req, res, next) => {
 						// console.log(decoded);
 						req.body.user = decoded.email;
 						req.headers.user = decoded.email;
-						console.log(req.headers);
+						// console.log(req.headers);
 						next();
 					} else {
 						res.status(401).send("Please login first");

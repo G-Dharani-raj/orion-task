@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { API } from "../../util/API";
 import HomeCard from "../home/HomeCard";
-import { Text } from "@chakra-ui/react";
+import { SimpleGrid, Text } from "@chakra-ui/react";
 
 const Library = () => {
 	const { token, id } = useContext(AuthContext);
@@ -21,13 +21,13 @@ const Library = () => {
 		getData();
 	}, []);
 	return (
-		<div>
+		<SimpleGrid columns={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}>
 			{lib.length > 0 ? (
 				lib.map((item) => <HomeCard key={item._id} {...item} />)
 			) : (
 				<Text>No items added to the library</Text>
 			)}
-		</div>
+		</SimpleGrid>
 	);
 };
 

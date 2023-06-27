@@ -56,6 +56,7 @@ userRouter.post("/login", async (req, res) => {
 					res.status(200).send({
 						token: token,
 						id: user[0]._id,
+						admin: user[0].admin,
 					});
 				} else {
 					res.status(401).send({

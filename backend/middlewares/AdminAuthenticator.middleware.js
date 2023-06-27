@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const adminAuthenticate = async (req, res, next) => {
 	const jwt_token = req.headers.authorization;
-	console.log(jwt_token);
+	// console.log(jwt_token);
 	if (!jwt_token) {
 		res.status(401).send({ message: "Please login first" });
 	} else {
@@ -16,7 +16,7 @@ const adminAuthenticate = async (req, res, next) => {
 			jwt.verify(token, process.env.JWS, async (err, decoded) => {
 				if (err) res.send(err);
 				else if (decoded) {
-					console.log(decoded);
+					// console.log(decoded);
 					req.body.user = decoded.email;
 					req.headers.user = decoded.email;
 					let user = await UserModel.find({ email: decoded.email });

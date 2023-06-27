@@ -28,13 +28,12 @@ adminBookRouter.get("/:id", async (req, res) => {
 	}
 });
 
-adminBookRouter.post("/", upload.single("image"), async (req, res) => {
+adminBookRouter.post("/", async (req, res) => {
 	const { name, author } = req.body;
 	try {
-		const result = await cloudinary.uploader.upload(req.file.path);
+		// const result = await cloudinary.uploader.upload(req.file.path);
 		let newBook = new BookModel({
 			...req.body,
-			cover: result.secure_url,
 		});
 		await newBook.save();
 		res.status(200).send({

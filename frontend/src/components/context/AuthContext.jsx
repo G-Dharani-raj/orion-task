@@ -6,13 +6,24 @@ const AuthContextProvider = ({ children }) => {
 	const [isAuth, setAuth] = React.useState(false);
 	const [token, setToken] = React.useState(null);
 	const [id, setId] = useState("");
+	const [isAdmin, setIsAdmin] = useState(false);
 	const logoutFN = () => {
 		setAuth(false);
 		setToken(null);
 	};
 	return (
 		<AuthContext.Provider
-			value={{ isAuth, token, logoutFN, setToken, setAuth, id, setId }}
+			value={{
+				isAuth,
+				token,
+				logoutFN,
+				setToken,
+				setAuth,
+				id,
+				setId,
+				isAdmin,
+				setIsAdmin,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

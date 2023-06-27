@@ -19,7 +19,7 @@ reviewRouter.post("/post/:id", async (req, res) => {
 				review,
 			});
 			await new_review.save();
-			console.log(new_review._id);
+			// console.log(new_review._id);
 			let book_reviews = await BRModel.find({ book: id });
 			if (book_reviews.length === 0) {
 				let new_br = new BRModel({

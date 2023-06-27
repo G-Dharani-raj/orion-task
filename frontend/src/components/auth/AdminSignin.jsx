@@ -12,16 +12,18 @@ import {
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { API } from "../../util/API";
+import { useNavigate } from "react-router";
 
-export default function SignIn() {
+export default function AdminSignIn() {
 	const [mail, setMail] = useState("");
 	const [password, setPassword] = useState("");
-	const { token, setToken, setAuth, setId, setIsAdmin } =
+	const { token, setToken, setAuth, setId, setIsAdmin, isAdmin } =
 		useContext(AuthContext);
+	const navigate = useNavigate();
 	const handleSignin = async () => {
 		try {
 			let data = await axios.post(`${API}/user/login`, {
@@ -37,6 +39,9 @@ export default function SignIn() {
 			console.log(error);
 		}
 	};
+	useEffect(() => {
+		if (isAdmin) navigate("/admindashboard");
+	}, [isAdmin]);
 	return (
 		<Flex
 			minH={"100vh"}
