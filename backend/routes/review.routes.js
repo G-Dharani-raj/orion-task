@@ -53,7 +53,11 @@ reviewRouter.get("/book/:id", async (req, res) => {
 				$in: book[0].reviews,
 			},
 		});
-		res.status(200).send(reviews);
+		if (reviews.length > 0) {
+			res.status(200).send(reviews);
+		} else {
+			res.status(404).send([]);
+		}
 	} catch (error) {
 		res.status(500).send(error.message);
 	}

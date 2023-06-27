@@ -13,6 +13,7 @@ const adminBookRouter = require("./routes/admin.books.routes");
 const adminAuthenticate = require("./middlewares/AdminAuthenticator.middleware");
 const adminReviewRouter = require("./routes/admin.reviews.routes");
 const adminRatingRouter = require("./routes/admin.rating.routes");
+const getRatingRouter = require("./routes/getRating.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/reviews", reviewRouter);
 app.use("/admin/books", adminBookRouter);
 app.use("/admin/rating", adminRatingRouter);
 app.use("/admin/review", adminReviewRouter);
+app.use("/getrating", getRatingRouter);
 
 app.listen(process.env.PORT, () => {
 	connectDB();

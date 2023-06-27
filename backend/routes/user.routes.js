@@ -55,6 +55,7 @@ userRouter.post("/login", async (req, res) => {
 
 					res.status(200).send({
 						token: token,
+						id: user[0]._id,
 					});
 				} else {
 					res.status(401).send({
@@ -79,7 +80,7 @@ userRouter.get("/:id", async (req, res) => {
 				$in: user.library,
 			},
 		});
-		res.status(200).send({ user, library });
+		res.status(200).send({ library });
 	} catch (error) {
 		res.status(500).send(error.message);
 	}

@@ -4,7 +4,8 @@ require("dotenv").config();
 const userAuthenticate = async (req, res, next) => {
 	// const token = req.headers.authorization;
 	let checker = req.path.split("/")[1];
-	if (checker && req.method === "GET") {
+	// console.log(req.baseUrl);
+	if (checker && req.method === "GET" && req.baseUrl === "/reviews") {
 		next();
 	} else {
 		const jwt_token = req.headers.authorization;
@@ -20,7 +21,7 @@ const userAuthenticate = async (req, res, next) => {
 						// console.log(decoded);
 						req.body.user = decoded.email;
 						req.headers.user = decoded.email;
-						console.log(req.body);
+						console.log(req.headers);
 						next();
 					} else {
 						res.status(401).send("Please login first");
