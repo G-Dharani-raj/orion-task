@@ -18,6 +18,7 @@ const adminAuthenticate = async (req, res, next) => {
 				else if (decoded) {
 					console.log(decoded);
 					req.body.user = decoded.email;
+					req.headers.user = decoded.email;
 					let user = await UserModel.find({ email: decoded.email });
 					// console.log(user);
 					if (user[0].admin) {
