@@ -2,9 +2,9 @@ const express = require("express");
 const ReviewModel = require("../models/Review.model");
 const BRModel = require("../models/BookReview.model");
 
-const reviewRouter = express.Router();
+const adminReviewRouter = express.Router();
 
-reviewRouter.post("/post/:id", async (req, res) => {
+adminReviewRouter.post("/:id", async (req, res) => {
 	const id = req.params.id;
 	const { review } = req.body;
 	const { user } = req.headers;
@@ -44,61 +44,51 @@ reviewRouter.post("/post/:id", async (req, res) => {
 	}
 });
 
-reviewRouter.get("/book/:id", async (req, res) => {
+adminReviewRouter.get("/:id", async (req, res) => {
 	const id = req.params.id;
 	try {
-		let book = await BRModel.find({ book: id });
-		let reviews = await ReviewModel.find({
-			_id: {
-				$in: book[0].reviews,
-			},
-		});
-		res.status(200).send(reviews);
+		const id = req.params.id;
+		try {
+			let book = await BRModel.find({ book: id });
+			let reviews = await ReviewModel.find({
+				_id: {
+					$in: book[0].reviews,
+				},
+			});
+			res.status(200).send(reviews);
+		} catch (error) {
+			res.status(500).send(error.message);
+		}
 	} catch (error) {
 		res.status(500).send(error.message);
 	}
 });
 
-reviewRouter.get("/user", async (req, res) => {
+adminReviewRouter.delete("/:id", async (req, res) => {
 	const id = req.params.id;
-	const { user } = req.headers;
 	try {
-		let user_reviews = await ReviewModel.find({ user });
-		res.status(200).send(user_reviews);
+		await BRModel.findOneAndDelete({ book: id });
+		await ReviewModel.deleteMany({ book: id });
+		res.status(200).send("Reviews deleted successfully");
 	} catch (error) {
 		res.status(500).send(error.message);
 	}
 });
 
-reviewRouter.get("/user/:id", async (req, res) => {
+adminReviewRouter.delete("/user/:id", async (req, res) => {
 	const id = req.params.id;
-	const { user } = req.headers;
 	try {
-		let user_reviews = await ReviewModel.find({
-			$and: [{ user: user }, { book: id }],
-		});
-		res.status(200).send(user_reviews);
-	} catch (error) {
-		res.status(500).send(error.message);
-	}
-});
-
-reviewRouter.delete("/user/:id", async (req, res) => {
-	const id = req.params.id;
-	const { user } = req.headers;
-	try {
-		let user_review = await ReviewModel.findOneAndDelete({
-			$and: [{ user: user }, { book: id }],
-		});
-		let book_review = await BRModel.findOneAndUpdate(
-			{ book: id },
-			{ $pull: { reviews: user_review._id } },
+		let rev = await ReviewModel.findByIdAndDelete(id);
+		console.log(rev);
+		await BRModel.findOneAndUpdate(
+			{ book: rev.book },
+			{ $pull: { reviews: id } },
 			{ new: true }
 		);
-
-		res.status(200).send("Your review has been deleted.");
+		res.status(200).send("Review deleted successfully");
 	} catch (error) {
 		res.status(500).send(error.message);
 	}
 });
-module.exports = reviewRouter;
+
+module.exports = adminReviewRouter;

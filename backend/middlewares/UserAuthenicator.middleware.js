@@ -8,6 +8,7 @@ const userAuthenticate = async (req, res, next) => {
 		next();
 	} else {
 		const jwt_token = req.headers.authorization;
+		// console.log(jwt_token);
 		if (!jwt_token) {
 			res.status(401).send({ message: "Please login first" });
 		} else {
@@ -18,6 +19,8 @@ const userAuthenticate = async (req, res, next) => {
 					else if (decoded) {
 						// console.log(decoded);
 						req.body.user = decoded.email;
+						req.headers.user = decoded.email;
+						console.log(req.body);
 						next();
 					} else {
 						res.status(401).send("Please login first");

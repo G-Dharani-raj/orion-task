@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const UserModel = require("../models/User.model");
+const BookModel = require("../models/Book.model");
 
 const userRouter = express.Router();
 
@@ -69,4 +70,18 @@ userRouter.post("/login", async (req, res) => {
 	}
 });
 
+userRouter.get("/:id", async (req, res) => {
+	const id = req.params.id;
+	try {
+		let user = await UserModel.findById(id);
+		let library = await BookModel.find({
+			_id: {
+				$in: user.library,
+			},
+		});
+		res.status(200).send({ user, library });
+	} catch (error) {
+		res.status(500).send(error.message);
+	}
+});
 module.exports = userRouter;

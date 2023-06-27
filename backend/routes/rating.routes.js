@@ -5,7 +5,8 @@ const ratingRouter = express.Router();
 
 ratingRouter.post("/:id", async (req, res) => {
 	const id = req.params.id;
-	const { user, rating } = req.body;
+	const { rating } = req.body;
+	const { user } = req.headers;
 	try {
 		let check = await URModel.find({
 			$and: [{ user: user }, { book: id }],
@@ -76,7 +77,7 @@ ratingRouter.get("/:id", async (req, res) => {
 });
 
 ratingRouter.get("/userrating/:id", async (req, res) => {
-	const { user } = req.body;
+	const { user } = req.headers;
 	const id = req.params.id;
 	try {
 		let ur = await URModel.find({
@@ -89,7 +90,7 @@ ratingRouter.get("/userrating/:id", async (req, res) => {
 });
 
 ratingRouter.delete("/userrating/:id", async (req, res) => {
-	const { user } = req.body;
+	const { user } = req.headers;
 	const id = req.params.id;
 	try {
 		let ur = await URModel.find({
